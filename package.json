@@ -9,13 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.7.2",
-    "@fortawesome/free-brands-svg-icons": "^6.7.2",
-    "@fortawesome/free-solid-svg-icons": "^6.7.2",
-    "@fortawesome/react-fontawesome": "^0.2.2",
-    "next": "15.1.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "boxicons": "^2.1.4",
+    "crypto-js": "^4.2.0",
+    "install": "^0.13.0",
+    "mdb-react-ui-kit": "^9.0.0",
+    "mongoose": "^8.9.2",
+    "next": "^15.1.2",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-toastify": "^11.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

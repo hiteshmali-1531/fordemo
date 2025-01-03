@@ -1,0 +1,34 @@
+.dropdown {
+  
+    position: relative;
+    
+  }
+
+.dropdown-content{
+  
+    position: absolute;
+  top: 100%;
+  left: 0;
+  width: 250px;
+  overflow: hidden;
+  max-height: 0px; /* Initially hidden */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0px;
+  opacity: 0;
+  visibility: hidden;
+  transition: max-height 1s ease, opacity 0.9s ease, visibility 0.3s ease;
+}
+
+.dropdown:hover .dropdown-content {
+   
+    max-height: 800px;
+      /*Adjust to fit content height*/
+    opacity: 1;
+    visibility: visible;
+    
+}
+
+
+
+  
