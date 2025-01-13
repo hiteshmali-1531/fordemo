@@ -2,10 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import "../app/css/dropdown.css";
 
 export default function Navbar() {
+ const router = useRouter();
+  const [token ,setToken] = useState("");
+  const getToken = () =>{
+    const jwttoken = localStorage.getItem("token");
+    setToken(jwttoken);
+    console.log(token);
+  }
+   useEffect(()=>{
+    getToken();
+   },[router.events,router.query])
    const element = useRef(null);
   return (
     <div className="  px-5 fixed top-0 left-0 w-full z-50 navbar_bg_color">
@@ -144,16 +156,16 @@ export default function Navbar() {
                 element.current.style.opacity = '0'
                 element.current.style.visibility = 'hidden'
             }}>
-              <Link href="/admissions/undergraduate" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/admissions" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Apply For Admission
               </Link>
-              <Link href="/admissions/postgraduate" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/admissions/eligiblity" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Eligiablity Criteria
               </Link>
-              <Link href="/admissions/requirements" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/admissions/process" className="block text-black px-4 py-2 hover:bg-gray-200">
                 process of Admission
               </Link>
-              <Link href="/admissions/requirements" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/admissions/fees" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Fees Structure
               </Link>
             </div>
@@ -249,9 +261,13 @@ export default function Navbar() {
           </div>
 
           {/* Login Link */}
-          <Link href="/LoginRegister" className="text-white navItem text-lg transition duration-300">
+          {token&& <p>User</p>}
+          
+          {!token&&<Link href="/LoginRegister" className="text-white navItem text-lg transition duration-300">
+          
           <button className="flex mx-auto text-white bg-red-500 border-0 py-1 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Login</button>
           </Link>
+        }
         </div>
       </nav>
     </div>

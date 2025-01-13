@@ -1,30 +1,83 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './LoginRegister.css';  // Import your CSS here
 import { useRef } from 'react';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import { MDBBtn } from 'mdb-react-ui-kit';
 import 'boxicons/css/boxicons.min.css'
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer }  from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
 
 const LoginRegister = () => {
+  const router = useRouter();
   const [user, setUser] = useState({
     user_name: '',
     email: '',
     password: ''
   })
-
+  
+  const [loginUser, setLoginUser] = useState({ 
+    user_name: "",
+    password : ""
+  })
   const onChange = (e) => {
+ 
     setUser({ ...user, [e.target.name]: e.target.value })
   }
   console.log(user)
+  const changeLogin = (e) =>{
+    setLoginUser({...loginUser, [e.target.name]:e.target.value})
+  }
 
+  const onLogin = async() =>{    
+    const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/login`, {
+      method:'POST',
+      headers:{'Content-Type': 'application/json'},
+      body : JSON.stringify(loginUser)
+
+    });
+
+    const data = await res.json();
+    // console.log(data.token);
+    console.log(data)
+    if(data.status){
+      localStorage.setItem("token", data.token);
+      setTimeout(()=>{
+
+        router.push('/');
+      },1000)
+      toast.success(`${data.msg}`, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }else{
+      toast.error(`${data.msg}`, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+
+
+  }
 
   const signup = async () => {
     try {
-      const res = await fetch('/api/signup', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -33,9 +86,13 @@ const LoginRegister = () => {
       });
       const data = await res.json();
       console.log(data);
-      if (data.status) {
+      if (data.status) {  
+        setTimeout(()=>{
+          element.current.classList.remove('active')
+          
+        },1000);
         toast.success(`${data.msg}`, {
-          position: "top-rigth",
+          position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -77,9 +134,7 @@ const LoginRegister = () => {
   const element = useRef(null);
 
  
-  return (
-    <div className='loginPage'>
-
+  return (<>
       <ToastContainer
         position="bottom-left"
         autoClose={1000}
@@ -92,19 +147,23 @@ const LoginRegister = () => {
         pauseOnHover
         theme="light"
       />
+    <div className='loginPage'> 
+      
       <div ref={element} className={`wrapper  `}>
         <span className="rotate-bg"></span>
         <span className="rotate-bg2"></span>
         {/* Login Form */}
         <div className="form-box login ">
           <h2 className="title animation" style={{ "--i": 0, "--j": 21 }}>Login</h2>
-          <form >
+          <form onClick={(e)=>{e.preventDefault()}}>
             <div className="input-box animation" style={{ "--i": 1, "--j": 22 }}>
+              
               <input
                 type="text"
                 required
-                value={user.email}
-                onChange={(e) => onChange(e)}
+                name='user_name'
+                value={loginUser.user_name}
+                onChange={(e) => changeLogin(e)}
               />
               <label>Username</label>
               <i className='bx bxs-user'></i>
@@ -114,14 +173,16 @@ const LoginRegister = () => {
               <input
                 type="password"
                 required
+                name='password'
                 // value={password}
-                onChange={(e) => onChange(e)}
+                onChange={(e) => changeLogin(e)}
+                value={loginUser.password}
               />
               <label>Password</label>
               <i className='bx bxs-lock-alt'></i>
             </div>
 
-            <MDBBtn color="" className='bg-[#fd7e14]  btn animation' style={{ "--i": 5, "--j": 25 }}>Login</MDBBtn>
+            <MDBBtn color="" className='bg-[#fd7e14]  btn animation' style={{ "--i": 5, "--j": 25 }} onClick={onLogin}>Login</MDBBtn>
             <div className="linkTxt animation" style={{ "--i": 5, "--j": 25 }}>
               <p>Don't have an account? <a href="#" className="register-link" onClick={() => {
                 element.current.classList.add('active')
@@ -139,7 +200,7 @@ const LoginRegister = () => {
         {/* Register Form */}
         <div className="form-box register">
           <h2 className="title animation" style={{ "--i": 17, "--j": 0 }}>Sign Up</h2>
-          <form >
+          <form onClick={(e)=>e.preventDefault()} >
             <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
               <input
                 type="text"
@@ -192,6 +253,7 @@ const LoginRegister = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

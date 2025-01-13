@@ -278,7 +278,7 @@ form .linkTxt{
     pointer-events: auto;
 }
 
-
+  
 .wrapper .form-box.register .animation{
     transform: translateX(120%);
     opacity: 0;

@@ -4,8 +4,9 @@
 
 
 
+
 export default function Home() {
- 
+  
   return (<>
   <div className="bg-image">
       <div className="py-8">  </div>
