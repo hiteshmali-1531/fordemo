@@ -1,4 +1,5 @@
 "use client"
+import Script from 'next/script';
 import React, { useEffect, useState } from 'react';
 
 const page = () => {
@@ -19,13 +20,45 @@ const page = () => {
     setDocuments(uploadedDocuments);
   }, []);
 
-  const submitForm = () => {
+  const submitForm = async() => {
+  
+  let a = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pretransaction`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+  a = await a.json();
+        let orderId = a.id;
+    var option = {
+      "key": "rzp_test_i992dpzpgNA0fH", // Enter the Key ID generated from the Dashboard
+      "amount": "100", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "hitesh@gmail.com", //your business name
+      "description": "hello",
+      "image": "https://example.com/your_logo",
+      "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "callback_url": `${process.env.NEXT_PUBLIC_HOST}/api/razorpay`,
+      "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+          "name": "hitesh Kumar", //your customer's name
+          "email": "hitesh@gmail.com",
+          "contact": "9000090000" //Provide the customer's phone numb er for better conversion rates 
+      },
+
+  }
+  var rzp1 = new Razorpay(option);
+
+  console.log(rzp1.accounts)
+  rzp1.open();
+
     alert("Form Submitted Successfully!");
+    
     // Add logic to handle form submission here.
   };
 
   return (
     <div className=" min-h-screen flex items-center justify-center">
+      <Script id="razor" src="https://checkout.razorpay.com/v1/checkout.js"></Script>
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full">
         <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">Preview Your Information</h1>
 
@@ -95,7 +128,7 @@ const page = () => {
           {/* Button Section */}
           <div className="flex justify-between">
             <button type="button" onClick={() => window.history.back()} className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600">Edit</button>
-            <button type="button" onClick={submitForm} className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600">Submit</button>
+            <button type="button" onClick={submitForm}  className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600">Submit</button>
           </div>
         </div>
       </div>

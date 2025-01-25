@@ -1,9 +1,24 @@
 "use client"
 import Image from "next/image";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { setStep } from "@/features/navbar/navbarSlice";
+import { useDispatch } from "react-redux";
 
 const page = () => {
+  
+  const dispatch = useDispatch();
+  useEffect(() =>{
+    let data = localStorage.getItem("personalDetails");
+    data = JSON.parse(data);
+   
+    
+    // console.log(data)
+    if(data){
+      setFormData(data);
+    }
+  },[])
+  
   const [formData, setFormData] = useState({
     fullName: '',
     motherName: '',
@@ -35,8 +50,9 @@ const page = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem('personalDetails', JSON.stringify(formData));
-    alert('Personal Information submitted! Moving to the next section.');
-    router.push('/corse/page');
+    // setStep(1)
+    dispatch(setStep(1))
+    router.push('/admissions/course');
   };
 
   return (
@@ -44,11 +60,11 @@ const page = () => {
       <div className="bg-white rounded-lg shadow-lg p-8  w-[80vw]">
         <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">Personal Information</h1>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => handleSubmit(e)}>
           {/* Full Name */}
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Full Name of Applicant</label>
-            <input
+            <input required
               type="text"
               name="fullName"
               value={formData.fullName}
@@ -63,6 +79,7 @@ const page = () => {
             <label className="block text-lg font-medium text-gray-700">Mother's Name</label>
             <input
               type="text"
+              required
               name="motherName"
               value={formData.motherName}
               onChange={handleChange}
@@ -75,6 +92,7 @@ const page = () => {
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Guardian Relation</label>
             <select
+            required
               name="guardianRelation"
               value={formData.guardianRelation}
               onChange={handleChange}
@@ -91,6 +109,7 @@ const page = () => {
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Guardian Name</label>
             <input
+              required
               type="text"
               name="guardianName"
               value={formData.guardianName}
@@ -104,6 +123,7 @@ const page = () => {
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Date of Birth</label>
             <input
+            required
               type="date"
               name="dob"
               value={formData.dob}
@@ -116,6 +136,7 @@ const page = () => {
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Category</label>
             <select
+            required
               name="category"
               value={formData.category}
               onChange={handleChange}
@@ -135,6 +156,7 @@ const page = () => {
             <div className="mt-2 flex space-x-6">
               <label className="inline-flex items-center">
                 <input
+                
                   type="radio"
                   name="gender"
                   value="Male"
@@ -174,6 +196,7 @@ const page = () => {
             <label className="block text-lg font-medium text-gray-700">Street Address</label>
             <input
               type="text"
+              required
               name="street"
               value={formData.street}
               onChange={handleChange}
@@ -186,6 +209,7 @@ const page = () => {
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">City</label>
             <input
+              required
               type="text"
               name="city"
               value={formData.city}
@@ -200,6 +224,7 @@ const page = () => {
             <label className="block text-lg font-medium text-gray-700">State</label>
             <input
               type="text"
+              required
               name="state"
               value={formData.state}
               onChange={handleChange}
@@ -212,6 +237,7 @@ const page = () => {
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Pin Code</label>
             <input
+            required
               type="text"
               name="pincode"
               value={formData.pincode}
@@ -225,6 +251,7 @@ const page = () => {
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Religion</label>
             <select
+            required
               name="religion"
               value={formData.religion}
               onChange={handleChange}
@@ -242,6 +269,7 @@ const page = () => {
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Marital Status</label>
             <select
+              required
               name="maritalStatus"
               value={formData.maritalStatus}
               onChange={handleChange}
@@ -258,6 +286,7 @@ const page = () => {
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Email</label>
             <input
+              required
               type="email"
               name="email"
               value={formData.email}
@@ -271,8 +300,10 @@ const page = () => {
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Mobile Number</label>
             <input
+              required
               type="tel"
               name="mobile"
+              minLength="10"
               value={formData.mobile}
               onChange={handleChange}
               placeholder="Enter Mobile Number"
@@ -284,7 +315,8 @@ const page = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600"
+          
+              className="bg-blue-500 disabled:bg-blue-100  text-white px-6 py-3 rounded-md hover:bg-blue-600"
             >
               Next
             </button>

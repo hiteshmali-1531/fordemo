@@ -1,7 +1,9 @@
 "use client"
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     programType: '',
     program: '',
@@ -23,6 +25,7 @@ const page = () => {
 
   useEffect(() => {
     const courseSelection = JSON.parse(localStorage.getItem('courseSelection'));
+    const qualification = JSON.parse(localStorage.getItem('qualificaton detail'));
     if (courseSelection) {
       setFormData((prevData) => ({
         ...prevData,
@@ -30,6 +33,11 @@ const page = () => {
         program: courseSelection.bachelorDegree || courseSelection.masterDegree,
         branch: courseSelection.beBranch || courseSelection.mtechBranch
       }));
+    }
+    if(qualification){
+      setFormData((prevData)=>({
+        ...prevData, ...qualification
+      }))
     }
   }, []);
 
@@ -42,8 +50,10 @@ const page = () => {
   };
 
   const handleSubmit = (e) => {
+    localStorage.setItem("qualificaton detail", JSON.stringify(formData));
     e.preventDefault();
     alert('Qualification details submitted! Moving to the next section.');
+    router.push('/admissions/document')
   };
 
   return (
@@ -51,7 +61,7 @@ const page = () => {
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full">
         <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">Qualification Details</h1>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => handleSubmit(e)}>
           {/* Program Type (Bachelor's or Master's) Selection */}
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Select Program Type</label>
@@ -296,7 +306,7 @@ const page = () => {
 
           {/* Previous and Next Buttons */}
           <div className="flex justify-between">
-            <button type="button" onClick={() => window.history.back()} className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600">Previous</button>
+            <button type="button" onClick={() => router.push('/admissions/course')} className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600">Previous</button>
             <button type="submit" className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600">Next</button>
           </div>
         </form>

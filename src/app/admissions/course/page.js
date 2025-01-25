@@ -1,5 +1,6 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,15 @@ const page = () => {
     masterDegree: '',
     mtechBranch: ''
   });
+  const router = useRouter();
+
+  useEffect(()=>{
+    let data = localStorage.getItem("courseSelection");
+    data = JSON.parse(data);
+    if(data){
+      setFormData(data)
+    }
+  },[])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +32,8 @@ const page = () => {
     e.preventDefault();
     localStorage.setItem('courseSelection', JSON.stringify(formData));
     alert('Program selection submitted! Moving to the next section.');
+    router.push("/admissions/qualification")
+  
   };
 
   return (
@@ -29,7 +41,7 @@ const page = () => {
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full">
         <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">Admission Form - Program Selection</h1>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e)=> handleSubmit(e)}>
           {/* Select Program Type (Bachelor's or Master's) */}
           <div className="mb-5">
             <label className="block text-lg font-medium text-gray-700">Select Program Type</label>
@@ -124,7 +136,7 @@ const page = () => {
 
           {/* Previous and Next Buttons */}
           <div className="flex justify-between">
-            <button type="button" onClick={() => window.history.back()} className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600">Previous</button>
+            <button type="button" onClick={() => router.push('/admissions')} className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600">Previous</button>
             <button type="submit" className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600">Next</button>
           </div>
         </form>

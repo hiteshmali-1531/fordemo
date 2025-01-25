@@ -10,8 +10,12 @@ import { toast, ToastContainer }  from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setToken } from '@/features/navbar/navbarSlice';
 
 const LoginRegister = () => {
+  const dispatch = useDispatch();
+  
   const router = useRouter();
   const [user, setUser] = useState({
     user_name: '',
@@ -45,6 +49,7 @@ const LoginRegister = () => {
     console.log(data)
     if(data.status){
       localStorage.setItem("token", data.token);
+      dispatch(setToken(data.token))
       setTimeout(()=>{
 
         router.push('/');

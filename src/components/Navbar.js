@@ -4,20 +4,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { setToken } from "@/features/navbar/navbarSlice";
 
 import "../app/css/dropdown.css";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Navbar() {
  const router = useRouter();
-  const [token ,setToken] = useState("");
+ const dispatch = useDispatch()
+ 
+  const token = useSelector((state)=> state.navbar.token)
   const getToken = () =>{
     const jwttoken = localStorage.getItem("token");
-    setToken(jwttoken);
-    console.log(token);
+    // setToken(jwttoken);
+    dispatch(setToken(jwttoken))
+    // console.log(jwttoken);
+    console.log(token)
   }
    useEffect(()=>{
     getToken();
-   },[router.events,router.query])
+   },[ token])
+   const logout = ()=>{
+    localStorage.removeItem("token");
+    dispatch(setToken(""));
+   }
    const element = useRef(null);
   return (
     <div className="  px-5 fixed top-0 left-0 w-full z-50 navbar_bg_color">
@@ -34,13 +44,13 @@ export default function Navbar() {
 
         {/* Right side: Navigation links */}
         <div className="flex  font-bold">
-          <Link href="/" className="text-white navItem flex justify-center px-3  items-center text-lg  duration-300 hover:text-red-500 transition">
+          <Link href="/" className="text-white navItem flex justify-center px-1  items-center text-lg  duration-300 hover:text-red-500 transition">
             <Image src={'/svg/home.svg'} width={20} height={20} alt="not found" className="font-bold text-white homeSvg   hover:text-red-500" />
           </Link>
 
           {/* Student Dropdown */}
           <div className="relative  group dropdown">
-            <button className="text-white px-8 py-2   navItem text-lg  duration-300 hover:bg-red-500 transition" onMouseEnter={() =>{
+            <button className="text-white px-6 py-2   navItem text-md  duration-300 hover:bg-red-500 transition" onMouseEnter={() =>{
                 console.log("click")
                 element.current.style.maxHeight = element.current.maxHeight + 'px'
                 element.current.style.opacity = '1'
@@ -89,7 +99,7 @@ export default function Navbar() {
 {/* discord par aav  */}
           {/* Faculty Dropdown */}
           <div className="relative  group dropdown">
-            <button className="text-white px-8 py-2   navItem text-lg  duration-300 hover:bg-red-500 transition" onMouseEnter={() =>{
+            <button className="text-white px-6 py-2   navItem text-md  duration-300 hover:bg-red-500 transition" onMouseEnter={() =>{
                 console.log("click")
                 element.current.style.maxHeight = element.current.maxHeight + 'px'
                 element.current.style.opacity = '1'
@@ -131,7 +141,7 @@ export default function Navbar() {
 
           {/* Admissions Dropdown */}
           <div className="relative  group dropdown">
-            <button className="text-white px-8 py-2   navItem text-lg  duration-300 hover:bg-red-500 transition" onMouseEnter={() =>{
+            <button className="text-white px-6 py-2   navItem text-md  duration-300 hover:bg-red-500 transition" onMouseEnter={() =>{
                 console.log("click")
                 element.current.style.maxHeight = element.current.maxHeight + 'px'
                 element.current.style.opacity = '1'
@@ -173,7 +183,7 @@ export default function Navbar() {
 
           {/* Resources Dropdown */}
           <div className="relative  group dropdown">
-            <button className="text-white px-8 py-2   navItem text-lg  duration-300 hover:bg-red-500 transition" onMouseEnter={() =>{
+            <button className="text-white px-6 py-2   navItem text-md  duration-300 hover:bg-red-500 transition" onMouseEnter={() =>{
                 console.log("click")
                 element.current.style.maxHeight = element.current.maxHeight + 'px'
                 element.current.style.opacity = '1'
@@ -218,7 +228,7 @@ export default function Navbar() {
 
           {/* Alumni Dropdown */}
           <div className="relative  group dropdown">
-            <button className="text-white px-8 py-2   navItem text-lg  duration-300 hover:bg-red-500 transition" onMouseEnter={() =>{
+            <button className="text-white px-6 py-2   navItem text-md  duration-300 hover:bg-red-500 transition" onMouseEnter={() =>{
                 console.log("click")
                 element.current.style.maxHeight = element.current.maxHeight + 'px'
                 element.current.style.opacity = '1'
@@ -254,16 +264,17 @@ export default function Navbar() {
               </Link>
             </div>
           </div>
-            <div className="flex items-center justify-center w-[35px] h-[35px] hover:bg-red-800 my-1 mx-6  border-2 border-white rounded-full">
-          <Image src={'/svg/search.svg'} className="" height={20} width={20} >
+            {/* <div className="flex items-center justify-center w-[35px] h-[35px] hover:bg-red-800 my-1 mx-6  border-2 border-white rounded-full">
+          <Image src={'/svg/search.svg'} className="" alt="no" height={20} width={20} >
 
           </Image>
-          </div>
+          </div> */}
 
           {/* Login Link */}
-          {token&& <p>User</p>}
+          {token&& <div className="flex justify-center items-center text-white px-2 py-2  gap-2   navItem text-md  duration-300 hover:bg-red-500 transition"> <Image src='/svg/user.svg' alt="no" height={20} width={20} /> </div>}
+          {token &&  <div className="text-white navItem text-md transition duration-300"><button className="flex mx-auto rounded-none text-white   border-0 py-1 bg-red-500  px-6 focus:outline-none hover:bg-red-600  " onClick={logout}>Logout</button></div>}
           
-          {!token&&<Link href="/LoginRegister" className="text-white navItem text-lg transition duration-300">
+          {!token&&<Link href="/LoginRegister" className="text-white navItem text-md transition duration-300">
           
           <button className="flex mx-auto text-white bg-red-500 border-0 py-1 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Login</button>
           </Link>
