@@ -23,6 +23,7 @@
     "razorpay": "^2.9.5",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-pro-sidebar": "^1.1.0",
     "react-redux": "^9.2.0",
     "react-toastify": "^11.0.2"
   },

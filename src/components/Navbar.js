@@ -4,10 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { setToken } from "@/features/navbar/navbarSlice";
+import { setToken,setUser } from "@/features/navbar/navbarSlice";
 
 import "../app/css/dropdown.css";
 import { useDispatch, useSelector } from "react-redux";
+
 
 export default function Navbar() {
  const router = useRouter();
@@ -21,8 +22,20 @@ export default function Navbar() {
     // console.log(jwttoken);
     console.log(token)
   }
+
+  const getUser = async ()=>{
+    let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/user`,{
+      method: 'POST',
+      body: JSON.stringify({token})
+    })
+
+    res = await res.json();
+    console.log(res.user)
+    dispatch(setUser(res.user))
+  }
    useEffect(()=>{
     getToken();
+    getUser();
    },[ token])
    const logout = ()=>{
     localStorage.removeItem("token");
@@ -271,7 +284,7 @@ export default function Navbar() {
           </div> */}
 
           {/* Login Link */}
-          {token&& <div className="flex justify-center items-center text-white px-2 py-2  gap-2   navItem text-md  duration-300 hover:bg-red-500 transition"> <Image src='/svg/user.svg' alt="no" height={20} width={20} /> </div>}
+          {token&& <div className="flex justify-center items-center text-white px-2  py-2     navItem text-md  duration-300 hover:bg-red-500 transition " style={{marginRight: '10px'}}> <Image src='/svg/user.svg' alt="no" height={20} width={20} /> </div>}
           {token &&  <div className="text-white navItem text-md transition duration-300"><button className="flex mx-auto rounded-none text-white   border-0 py-1 bg-red-500  px-6 focus:outline-none hover:bg-red-600  " onClick={logout}>Logout</button></div>}
           
           {!token&&<Link href="/LoginRegister" className="text-white navItem text-md transition duration-300">

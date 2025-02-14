@@ -1,0 +1,28 @@
+
+    .custom-ring {
+      border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%;
+      animation: animate 6s linear infinite;
+    }
+    .custom-ring-2 {
+      border-radius: 41% 44% 56% 59%/38% 62% 63% 37%;
+      animation: animate 4s linear infinite;
+    }
+    .custom-ring-3 {
+      border-radius: 41% 44% 56% 59%/38% 62% 63% 37%;
+      animation: animate2 10s linear infinite;
+    }
+    @keyframes animate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes animate2 {
+      0% { transform: rotate(360deg); }
+      100% { transform: rotate(0deg); }
+    }
+    .ring-hover:hover i {
+      border-width: 6px;
+      filter: drop-shadow(0 0 20px var(--clr));
+    }
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.75);
+    }

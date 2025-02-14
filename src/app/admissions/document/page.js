@@ -1,7 +1,51 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
+import { setStep } from '@/features/navbar/navbarSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { set } from 'mongoose';
 
 const page = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [sscMarksheet, setSscMarksheet] = useState();
+  const [hscMarksheet, setHscMarksheet] = useState();
+  const [gujcatMarksheet, setGujcatMarksheet] = useState();
+  const [degree, setDegree] = useState();
+  const [passportPhoto, setPassportPhoto] = useState();
+  const [signature, setSignature] = useState();
+  const [aadharCard, setAadharCard] = useState();
+  const [sscSeatNumber, setSscSeatNumber] = useState();
+  const [hscSeatNumber, setHscSeatNumber] = useState();
+  const [gujcatSeatNumber, setGujcatSeatNumber] = useState();
+  const [degreeCertNo, setDegreeCertNo] = useState();
+  const user = useSelector((state)=>state.navbar.user)
+  // console.log(email)
+
+  const onUpload = async(fileName,file) =>{
+    // console.log(email)
+    // console.log("hii")
+    // console.log(sscMarksheet)
+    if(fileName && file != undefined){
+      const fd = new FormData();
+      fd.set("file",file);
+      fd.set("fileName",fileName);
+      fd.set("email", user.email);
+      
+      let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/admission/upload`,{
+        method:"POST",
+        body:fd
+      })
+      res = await res.json();
+      // console.log(res)
+      // console.log("ok")
+      // console.log(file)
+    }else{
+      // console.log("not ok")
+    }
+  }
+
+  
   const [formData, setFormData] = useState({
     programType: '',
     degree: ''
@@ -27,11 +71,12 @@ const page = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Documents submitted successfully!');
+    dispatch(setStep(4));
+    router.push('/admissions/preview');
   };
 
   return (
-    <div className=" min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full">
         <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">Document Upload</h1>
 
@@ -95,51 +140,132 @@ const page = () => {
               <>
                 <div className="mb-5">
                   <label className="block text-lg font-medium text-gray-700">10th Marksheet</label>
-                  <input
-                    type="file"
-                    name="tenthMarksheet"
-                    className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
+                  <div className="flex w-full items-center justify-center">
+                    <input
+                      className="w-1/2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      type="file"
+                      name="tenthMarksheet"
+                 
+                      onChange={(e) =>e.target.files[0]?setSscMarksheet(e.target.files[0]):""}
+                     
+                      required
+                    />
+                    <div className='flex w-full px-4 py-2'>
+
+                      <button
+                        type="button"
+                        className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      
+                        onClick={() => onUpload("sscMarksheet",sscMarksheet)}
+                      >
+                        Upload
+                      </button>
+                      {user&&
+                      <a
+                        href={`/admissions/document/preview/sscMarksheet`}
+                        target='_blank'
+                        type="button"
+                        className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                        
+                      >
+                        Preview
+                        </a>}
+                    </div>
+                  </div>
                   <input
                     type="text"
-                    name="tenthCertNo"
+                    name="sscSeatNumber"
+                    onChange={(e) =>setSscSeatNumber(e.target.value)}
+                    
+
                     className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Certificate Number"
+                    placeholder="seat number"
                     required
                   />
                 </div>
 
                 <div className="mb-5">
                   <label className="block text-lg font-medium text-gray-700">12th Marksheet</label>
-                  <input
-                    type="file"
-                    name="twelfthMarksheet"
-                    className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
+                  <div className="flex items-center justify-center">
+                    <input
+                      type="file"
+                      name="twelfthMarksheet"
+                      onChange={(e) =>e.target.files[0]?setHscMarksheet(e.target.files[0]):""}
+
+                      className="w-1/2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                    <div className="flex px-4 py-2 w-full">
+                    <button
+                      type="button"
+                      
+                      className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      onClick={()=>onUpload("hscMarksheet",hscMarksheet)}
+                    >
+                      Upload
+                    </button>
+                    {user &&<a
+                        href={`/admissions/document/preview/hscMarksheet`}
+                        target='_blank'
+                        type="button"
+                        className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                        
+                      >
+
+                        Preview
+                      </a>
+}
+                    </div>
+                  </div>
                   <input
                     type="text"
-                    name="twelfthCertNo"
+                    name="hscSeatNumber"
+                    onChange={(e) =>setHscSeatNumber(e.target.value)}
                     className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Certificate Number"
+                    placeholder="Seat Number"
                     required
                   />
                 </div>
 
                 <div className="mb-5">
                   <label className="block text-lg font-medium text-gray-700">GUJCAT Marksheet</label>
-                  <input
-                    type="file"
-                    name="gujcatMarksheet"
-                    className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
+                  <div className="flex items-center justify-center">
+                    <input
+                      type="file"
+                      name="gujcatMarksheet"
+                      onChange={(e) =>e.target.files[0]?setGujcatMarksheet(e.target.files[0]):""}
+                      className="w-1/2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                     
+                      required
+                    />
+                    <div className="flex px-4 py-2 w-full">
+                    <button
+                      type="button"
+                      className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      onClick={()=>onUpload("gujcatMarksheet",gujcatMarksheet)}
+                    >
+                      Upload
+                    </button>
+                    <a
+                        href={`/admissions/document/preview/gujcatMarksheet`}
+                        target='_blank'
+                        type="button"
+                        className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                        
+                      >
+                        Preview
+                      </a>
+                  </div>
+                  </div>
                   <input
                     type="text"
-                    name="gujcatCertNo"
+                    name="gujcatSeatNumber"
                     className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Certificate Number"
+                    placeholder="Seat Number"
+                    onChange={(e) => setGujcatSeatNumber(e.target.value)}
                     required
                   />
                 </div>
@@ -149,17 +275,41 @@ const page = () => {
             {/* Degree Certificate for Bachelor and Master */}
             <div className="mb-5">
               <label className="block text-lg font-medium text-gray-700">Degree Certificate</label>
-              <input
-                type="file"
-                name="degreeCert"
-                className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
+              <div className="flex items-center justify-center">
+                <input
+                  type="file"
+                  name="degreeCert"
+                  onChange={(e) =>e.target.files[0]?setDegree(e.target.files[0]):""}
+
+                  className="w-1/2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <div className="flex px-4 py-2 w-full">
+                <button
+                  type="button"
+                  onClick={()=>onUpload("degree",degree)}
+                  className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Upload
+                </button>
+                <a
+                        href={`/admissions/document/preview/degree`}
+                        target='_blank'
+                        type="button"
+                        className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                        
+                      >
+                        Preview
+                      </a>
+              </div>
+              </div>
               <input
                 type="text"
                 name="degreeCertNo"
                 className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Certificate Number"
+                onChange={(e) => setDegreeCertNo(e.target.value)}
                 required
               />
             </div>
@@ -167,34 +317,100 @@ const page = () => {
             {/* Passport-size Photo */}
             <div className="mb-5">
               <label className="block text-lg font-medium text-gray-700">Passport Size Photo</label>
-              <input
-                type="file"
-                name="passportPhoto"
-                className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
+              <div className="flex items-center justify-center">
+                <input
+                  type="file"
+                  onChange={(e) =>e.target.files[0]?setPassportPhoto(e.target.files[0]):""}
+                  name="passportPhoto"
+                  className="w-1/2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <div className="flex px-4 py-2 w-full">
+                <button
+                  type="button"
+                  onClick={()=>onUpload("passportPhoto",passportPhoto)}
+                  className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Upload
+                </button>
+                <a
+                        href={`/admissions/document/preview/passportPhoto`}
+                        target='_blank'
+                        type="button"
+                        className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                        
+                      >
+                        Preview
+                      </a>
+              </div>
+              </div>
             </div>
 
             {/* Signature */}
             <div className="mb-5">
               <label className="block text-lg font-medium text-gray-700">Signature</label>
-              <input
-                type="file"
-                name="signature"
-                className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
+              <div className="flex items-center justify-center">
+                <input
+                  type="file"
+                  name="signature"
+                  onChange={(e) =>e.target.files[0]?setSignature(e.target.files[0]):""}
+                  className="w-1/2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <div className="flex px-4 py-2 w-full">
+                <button
+                  type="button"
+                  onClick={()=>onUpload("signature",signature)}
+                  className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Upload
+                </button>
+                <a
+                        href={`/admissions/document/preview/signature`}
+                        target='_blank'
+                        type="button"
+                        className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                        
+                      >
+                        Preview
+                      </a>
+              </div>
+              </div>
             </div>
 
             {/* Aadhar Card */}
             <div className="mb-5">
               <label className="block text-lg font-medium text-gray-700">Aadhar Card</label>
-              <input
-                type="file"
-                name="aadharCard"
-                className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
+              <div className="flex items-center justify-center">
+                <input
+                  type="file"
+                  name="aadharCard"
+                  onChange={(e) =>e.target.files[0]?setAadharCard(e.target.files[0]):""}
+                  className="w-1/2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <div className="flex px-4 py-2 w-full">
+                <button
+                  type="button"
+                  onClick={()=>onUpload("aadharCard",aadharCard)}
+                  className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Upload
+                </button>
+                <a
+                        href={`/admissions/document/preview/sscMarkssheet`}
+                        target='_blank'
+                        type="button"
+                        className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                        
+                      >
+                        Preview
+                      </a>
+              </div>
+              </div>
             </div>
           </div>
 
@@ -209,4 +425,4 @@ const page = () => {
   );
 };
 
-export default page
+export default page;

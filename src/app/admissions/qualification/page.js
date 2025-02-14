@@ -1,9 +1,12 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { setStep } from '@/features/navbar/navbarSlice';
+import { useDispatch } from 'react-redux';
 
 const page = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     programType: '',
     program: '',
@@ -52,7 +55,8 @@ const page = () => {
   const handleSubmit = (e) => {
     localStorage.setItem("qualificaton detail", JSON.stringify(formData));
     e.preventDefault();
-    alert('Qualification details submitted! Moving to the next section.');
+    // alert('Qualification details submitted! Moving to the next section.');
+    dispatch(setStep(3))
     router.push('/admissions/document')
   };
 

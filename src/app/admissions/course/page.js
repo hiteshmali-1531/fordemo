@@ -1,6 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setStep } from '@/features/navbar/navbarSlice';
 
 const page = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ const page = () => {
     mtechBranch: ''
   });
   const router = useRouter();
+  const dispatch = useDispatch()
 
   useEffect(()=>{
     let data = localStorage.getItem("courseSelection");
@@ -32,6 +35,7 @@ const page = () => {
     e.preventDefault();
     localStorage.setItem('courseSelection', JSON.stringify(formData));
     alert('Program selection submitted! Moving to the next section.');
+    dispatch(setStep(2))
     router.push("/admissions/qualification")
   
   };

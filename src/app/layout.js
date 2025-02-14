@@ -1,12 +1,13 @@
 
 "use client"
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Nabla } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import Head from "next/head";
+import { usePathname } from "next/navigation";
 
 
 
@@ -32,6 +33,7 @@ import Head from "next/head";
 // };
 
 export default function RootLayout({ children }) {
+  const pathName = usePathname()
   return (
     <html lang="en">
        <link rel="icon" href="/favicon.ico" />
@@ -46,9 +48,11 @@ export default function RootLayout({ children }) {
         </meta>
        </Head>
         <Provider store={store}>
-        <Navbar />
+         
+         {!pathName.includes("admin")&&<Navbar /> }           
+        
         {children}
-        <Footer />
+        {(!pathName.includes("preview")&&!pathName.includes("admin")) && <Footer />}
         </Provider>
         
         
