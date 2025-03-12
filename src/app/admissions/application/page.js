@@ -52,7 +52,7 @@ const page = () => {
     localStorage.setItem('personalDetails', JSON.stringify(formData));
     // setStep(1)
     dispatch(setStep(1))
-    router.push('/admissions/course');
+    router.push('/admissions/application/course');
   };
 
   return (
@@ -313,7 +313,7 @@ const page = () => {
 
           {/* Submit Button */}
           <div className="flex justify-center">
-            <button
+            <button 
               type="submit"
           
               className="bg-blue-500 disabled:bg-blue-100  text-white px-6 py-3 rounded-md hover:bg-blue-600"

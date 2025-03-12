@@ -1,6 +1,12 @@
+import AdminNavbar from "@/components/AdminNavbar";
+
 const layout = ({children})=>{
-    return (
-    <main>{children}</main>
+    return (  
+
+    <main>
+        <AdminNavbar />
+        {children}
+        </main>
     )
 }
 

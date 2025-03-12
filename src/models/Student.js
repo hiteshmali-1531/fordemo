@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 
 
 const studentSchema = new mongoose.Schema({
+    password:{
+        type: String,
+        required: true
+    },
     studentId:{
         type:String,
         required: true,

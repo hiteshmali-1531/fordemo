@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import Head from "next/head";
 import { usePathname } from "next/navigation";
+import ChatbotWidget from '../components/ChatbotWidget';
 
 
 
@@ -53,6 +54,7 @@ export default function RootLayout({ children }) {
         
         {children}
         {(!pathName.includes("preview")&&!pathName.includes("admin")) && <Footer />}
+        <ChatbotWidget /> 
         </Provider>
         
         

@@ -72,7 +72,7 @@ const page = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(setStep(4));
-    router.push('/admissions/preview');
+    router.push('/admissions/application/preview');
   };
 
   return (
@@ -162,7 +162,7 @@ const page = () => {
                       </button>
                       {user&&
                       <a
-                        href={`/admissions/document/preview/sscMarksheet`}
+                        href={`/admissions/application/document/preview/sscMarksheet`}
                         target='_blank'
                         type="button"
                         className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -206,7 +206,7 @@ const page = () => {
                       Upload
                     </button>
                     {user &&<a
-                        href={`/admissions/document/preview/hscMarksheet`}
+                        href={`/admissions/application/document/preview/hscMarksheet`}
                         target='_blank'
                         type="button"
                         className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -249,7 +249,7 @@ const page = () => {
                       Upload
                     </button>
                     <a
-                        href={`/admissions/document/preview/gujcatMarksheet`}
+                        href={`/admissions/application/document/preview/gujcatMarksheet`}
                         target='_blank'
                         type="button"
                         className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -293,7 +293,7 @@ const page = () => {
                   Upload
                 </button>
                 <a
-                        href={`/admissions/document/preview/degree`}
+                        href={`/admissions/application/document/preview/degree`}
                         target='_blank'
                         type="button"
                         className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -334,7 +334,7 @@ const page = () => {
                   Upload
                 </button>
                 <a
-                        href={`/admissions/document/preview/passportPhoto`}
+                        href={`/admissions/application/document/preview/passportPhoto`}
                         target='_blank'
                         type="button"
                         className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -367,7 +367,7 @@ const page = () => {
                   Upload
                 </button>
                 <a
-                        href={`/admissions/document/preview/signature`}
+                        href={`/admissions/application/document/preview/signature`}
                         target='_blank'
                         type="button"
                         className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -400,7 +400,7 @@ const page = () => {
                   Upload
                 </button>
                 <a
-                        href={`/admissions/document/preview/sscMarkssheet`}
+                        href={`/admissions/application/document/preview/sscMarkssheet`}
                         target='_blank'
                         type="button"
                         className="px-4 py-2 bg-blue-500 w-1/2 text-white rounded-md text-center font-semibold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -416,7 +416,7 @@ const page = () => {
 
           {/* Buttons */}
           <div className="flex justify-between">
-            <button type="button" onClick={() => window.history.back()} className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600">Previous</button>
+            <button type="button" onClick={() => router.push("/admissions/application/qualification")} className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600">Previous</button>
             <button type="submit" className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600">Submit</button>
           </div>
         </form>

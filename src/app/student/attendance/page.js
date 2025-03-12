@@ -1,6 +1,22 @@
+"use client"
 import React from 'react'
+import { useEffect, useState } from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 const page = () => {
+  const user = useSelector((state)=>state.navbar.user)
+  const router = useRouter();
+          useEffect(() =>{
+            if(user){
+              if(user.role != 'student'){
+                router.push('/studentlogin')
+              }
+            }else{
+              router.push('/studentlogin')
+            }
+          },[])
     const studentData = {
         rollNo: '101',
         name: 'Alice Johnson',

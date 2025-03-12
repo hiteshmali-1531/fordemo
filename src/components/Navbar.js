@@ -8,6 +8,7 @@ import { setToken,setUser } from "@/features/navbar/navbarSlice";
 
 import "../app/css/dropdown.css";
 import { useDispatch, useSelector } from "react-redux";
+import UserProfileMenu from "./UserProfileMenu";
 
 
 export default function Navbar() {
@@ -88,25 +89,25 @@ export default function Navbar() {
                 element.current.style.opacity = '0'
                 element.current.style.visibility = 'hidden'
             }}>
-              <Link href="/student/undergraduate" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/student" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Profile
               </Link>
-              <Link href="/student/postgraduate" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/student/at" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Attendance
               </Link>
-              <Link href="/student/exams" className="block px-4 text-black py-2 hover:bg-gray-200">
+              <Link href="/student/examresult" className="block px-4 text-black py-2 hover:bg-gray-200">
                 Exams Results
               </Link>
-              <Link href="/student/exams" className="block px-4 text-black py-2 hover:bg-gray-200">
+              <Link href="/student/examform" className="block px-4 text-black py-2 hover:bg-gray-200">
                 Exam Form
               </Link>
-              <Link href="/student/exams" className="block px-4 text-black py-2 hover:bg-gray-200">
-                Central Library
-              </Link>
-              <Link href="/student/exams" className="block px-4 text-black py-2 hover:bg-gray-200">
+            
+              <Link href="/student/timetable" className="block px-4 text-black py-2 hover:bg-gray-200">
                 Shedule and Timetable
               </Link>
-
+              <Link href="/student/login" className="block px-4 text-black py-2 hover:bg-gray-200">
+                Login
+              </Link>
             </div>
           </div>
 {/* discord par aav  */}
@@ -137,17 +138,20 @@ export default function Navbar() {
                 element.current.style.opacity = '0'
                 element.current.style.visibility = 'hidden'
             }}>
-              <Link href="/faculty/department" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/faculty" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Profile
               </Link>
-              <Link href="/faculty/research" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/faculty/at" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Attendance
               </Link>
-              <Link href="/faculty/publications" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/faculty/timetable" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Shedule And Timetable
               </Link>
-              <Link href="/faculty/publications" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/faculty/mentoring" className="block text-black px-4 py-2 hover:bg-gray-200">
               Faculty Mentoring
+              </Link>
+              <Link href="/faculty/login" className="block text-black px-4 py-2 hover:bg-gray-200">
+              login
               </Link>
             </div>
           </div>
@@ -179,10 +183,10 @@ export default function Navbar() {
                 element.current.style.opacity = '0'
                 element.current.style.visibility = 'hidden'
             }}>
-              <Link href="/admissions" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/admissions/application" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Apply For Admission
               </Link>
-              <Link href="/admissions/eligiblity" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/admissions/eligibility" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Eligiablity Criteria
               </Link>
               <Link href="/admissions/process" className="block text-black px-4 py-2 hover:bg-gray-200">
@@ -221,19 +225,19 @@ export default function Navbar() {
                 element.current.style.opacity = '0'
                 element.current.style.visibility = 'hidden'
             }}>
-              <Link href="/resources/library" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/resources" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Computer Engineering
               </Link>
-              <Link href="/resources/labs" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/resources" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Information Technology
               </Link>
               <Link href="/resources/hostel" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Mechanical Engineering
               </Link>
-              <Link href="/resources/hostel" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/resources" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Electrical Engineering
               </Link>
-              <Link href="/resources/hostel" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/resources" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Civil Engineering
               </Link>
             </div>
@@ -266,13 +270,13 @@ export default function Navbar() {
                 element.current.style.opacity = '0'
                 element.current.style.visibility = 'hidden'
             }}>
-              <Link href="/alumni/network" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/alumni" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Alumni Network
               </Link>
-              <Link href="/alumni/events" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/alumni/evt" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Alumni Events
               </Link>
-              <Link href="/alumni/mentorship" className="block text-black px-4 py-2 hover:bg-gray-200">
+              <Link href="/alumni/mentor" className="block text-black px-4 py-2 hover:bg-gray-200">
                 Mentorship Program
               </Link>
             </div>
@@ -284,8 +288,10 @@ export default function Navbar() {
           </div> */}
 
           {/* Login Link */}
-          {token&& <div className="flex justify-center items-center text-white px-2  py-2     navItem text-md  duration-300 hover:bg-red-500 transition " style={{marginRight: '10px'}}> <Image src='/svg/user.svg' alt="no" height={20} width={20} /> </div>}
-          {token &&  <div className="text-white navItem text-md transition duration-300"><button className="flex mx-auto rounded-none text-white   border-0 py-1 bg-red-500  px-6 focus:outline-none hover:bg-red-600  " onClick={logout}>Logout</button></div>}
+          {/* {token&& <div className="flex justify-center items-center text-white px-2  py-2     navItem text-md  duration-300 hover:bg-red-500 transition " style={{marginRight: '10px'}}> <Image src='/svg/user.svg' alt="no" height={20} width={20} /> </div>} */}
+          
+          {token&& <div className=""><UserProfileMenu logout={logout} /></div>}
+          {token &&  <div className="text-white navItem text-md transition duration-300"></div>}
           
           {!token&&<Link href="/LoginRegister" className="text-white navItem text-md transition duration-300">
           

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 import 'boxicons/css/boxicons.min.css'
 
 const Footer = () => {
+  const [item, setItem] = useState([["profile", "Attendence", "Exam Result", "Exam Form"], ["Profile", "Attendence", "shedule and timetable", "Faculty Mentoring"],["apply For Admission","Eligibility Criteria", "process of admission", "fees Structure"]])
   return (
     <footer className=" bg-[#212331] text-[#6b6b6b]   body-font">
       <div className="container px-5 py-24 mx-auto flex items-center md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
@@ -40,19 +42,19 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left  text-center">
-          {["STUDENT", "FACULTY", "ADMISSION", "RESOURCES"].map(
+          {["STUDENT", "FACULTY", "ADMISSION"].map(
             (category, index) => (
               <div key={index} className="lg:w-1/4 md:w-1/2 w-full px-4">
                 <h2 className="title-font font-medium  text-[#c5c5c5] tracking-widest text-sm mb-3">
                   {category}
                 </h2>
                 <nav className="list-none mb-10">
-                  {["First Link", "Second Link", "Third Link", "Fourth Link"].map(
+                  {item[index].map(
                     (link, idx) => (
                       <li key={idx} className="my-4">
-                        <a className=" text-[#c5c5c5]    hover:text-white">
+                        <Link href={`/${link}`} className=" text-[#c5c5c5] capitalize   hover:text-white">
                           {link}
-                        </a>
+                        </Link>
                       </li>
                     )
                   )}

@@ -57,7 +57,7 @@ const page = () => {
     e.preventDefault();
     // alert('Qualification details submitted! Moving to the next section.');
     dispatch(setStep(3))
-    router.push('/admissions/document')
+    router.push('/admissions/application/document')
   };
 
   return (
@@ -310,7 +310,7 @@ const page = () => {
 
           {/* Previous and Next Buttons */}
           <div className="flex justify-between">
-            <button type="button" onClick={() => router.push('/admissions/course')} className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600">Previous</button>
+            <button type="button" onClick={() => router.push('/admissions/application/course')} className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600">Previous</button>
             <button type="submit" className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600">Next</button>
           </div>
         </form>

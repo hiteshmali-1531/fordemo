@@ -7,18 +7,28 @@ const page = () => {
   const [programInfo, setProgramInfo] = useState({});
   const [qualificationInfo, setQualificationInfo] = useState({});
   const [documents, setDocuments] = useState({});
+  const [admissionDetails, setAdmissionDetails] = useState({});
 
   useEffect(() => {
     const personalDetails = JSON.parse(localStorage.getItem('personalDetails')) || {};
     const programDetails = JSON.parse(localStorage.getItem('courseSelection')) || {};
-    const qualificationDetails = JSON.parse(localStorage.getItem('qualificationDetails')) || {};
+    const qualificationDetails = JSON.parse(localStorage.getItem('qualificaton detail')) || {};
     const uploadedDocuments = JSON.parse(localStorage.getItem('documents')) || {};
 
     setPersonalDetails(personalDetails);
     setProgramInfo(programDetails);
     setQualificationInfo(qualificationDetails);
     setDocuments(uploadedDocuments);
+    setAdmissionDetails({personalDetails, programDetails, qualificationDetails, uploadedDocuments})
+    // console.log(personalDetails)
+
+    // console.log(admissionDetails);
   }, []);
+
+  useEffect(() =>{
+    console.log(admissionDetails)
+  },[admissionDetails])
+
 
   const submitForm = async() => {
   
@@ -26,7 +36,8 @@ const page = () => {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify(admissionDetails)
   })
   a = await a.json();
         let orderId = a.id;
@@ -108,10 +119,10 @@ const page = () => {
               12th Marks: {qualificationInfo.twelfthMarks} <br />
               JEE Seat Number: {qualificationInfo.jeeSeatNo} <br />
               JEE Rank: {qualificationInfo.jeeRank} <br />
-              Graduation Degree: {qualificationInfo.graduationDegree} <br />
-              Graduation Marks: {qualificationInfo.graduationMarks} <br />
-              Entrance Exam: {qualificationInfo.entranceExam} <br />
-              Exam Rank: {qualificationInfo.examRank}
+              {qualificationInfo.graduationDegree && <span>Graduation Degree: {qualificationInfo.graduationDegree} <br /></span>}
+              {qualificationInfo.graduationMarks && <span>Graduation Marks: {qualificationInfo.graduationMarks} <br /></span>}
+              {qualificationInfo.entranceExam && <span>Entrance Exam: {qualificationInfo.entranceExam} <br /></span>}
+             {qualificationInfo.examRank && <span>Exam Rank: {qualificationInfo.examRank}</span>} 
             </p>
           </div>
 

@@ -16,13 +16,13 @@ const layout = ({children}) => {
    
   return (
     <> 
-    {!pathName.includes("preview")&&
+    {!pathName.includes("document/preview")&&
     <Box  sx={{ width: '100%',height:'40vh' }}   alignItems={"center"} alignContent={"center"}>
       <Stepper activeStep={step} alternativeLabel>
         {steps.map((label) => (
             
           <Step key={label}>
-            <Link href={`/admissions/${label=="personal detail"?"": label}`}>
+            <Link href={`/admissions/application/${label=="personal detail"?"": label}`}>
             <StepLabel>{label}</StepLabel>
             </Link>
           </Step>
